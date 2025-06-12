@@ -27,6 +27,7 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT;
+console.log("hello");
 
 sequelize.authenticate()
   .then(() => {
