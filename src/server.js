@@ -9,7 +9,10 @@ dotenv.config();
 dotenv.config({ path: '../.env' }); 
 
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({
+  origin: 'http://localhost:5174',
+  credentials: true // if you're using cookies or sessions
+}));
 
 app.use(express.json());
 
@@ -27,7 +30,6 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT;
-console.log("hello");
 
 sequelize.authenticate()
   .then(() => {

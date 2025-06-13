@@ -11,16 +11,21 @@ const createProduct = async ({ seller_id, ...productBody }) => {
   
     return createdProduct;
 };
+const uploadProductImage = async ({ product_id, image_urls }) => {
+  if (!Array.isArray(image_urls)) {
+    throw new Error("image_urls must be an array");
+  }
 
-const uploadProductImage = async ({ product_id, image_url }) => {
-  
-    const result = await product.update(
-        { image_url: image_url },
-        { where: { id: product_id } }
-    );
-  
-    return result[0];
+  const formattedImages = image_urls.map((url) => ({ image_url: url }));
+
+  const result = await product.update(
+    { image_url: formattedImages },
+    { where: { id: product_id } }
+  );
+
+  return result[0];
 };
+
 
 const getProduct = async (userId) => {
   

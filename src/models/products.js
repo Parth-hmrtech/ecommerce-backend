@@ -40,9 +40,11 @@ const product = sequelize.define('Product', {
     validate: { min: 0 },
   },
   image_url: {
-    type: DataTypes.TEXT,
+    type: DataTypes.JSON, // or DataTypes.ARRAY(DataTypes.JSON) for Postgres
     allowNull: true,
   },
+
+
   is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

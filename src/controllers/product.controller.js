@@ -33,39 +33,28 @@ const createProductController = async (req, res) => {
 };
 
 const imageProductController = async (req, res) => {
-
     try {
+        const { product_id } = req.body;
+        const image_urls = [];
 
-        const file = req.file;
-
-        if (!file) {
-            return res.json({ message: "No image file uploaded" });
+        for (const file of req.files) {
+            const result = await uploadFile(file.path); 
+            image_urls.push(result);
         }
 
-        const imageUrl = await uploadFile(file.path);
+        const updateResult = await uploadProductImage({ product_id, image_urls });
 
-        await uploadProductImage({ ...req.body, image_url: imageUrl });
-
-        const result = await uploadProductImage({ ...req.body, image_url: imageUrl });
-
-        if (result) {
-            const filePath = path.join(process.cwd(), 'uploads', file.filename);
-            await fs.unlink(filePath);
-            console.log(`Deleted uploaded file: ${filePath}`);
-        }
-
-        return res.status(200).json({
-            error: false,
-            message: "Product image added successfully!",
-            data: imageUrl,
+        res.status(200).json({
+            message: "Images uploaded successfully",
+            updated: updateResult,
+            data : image_urls
         });
-
     } catch (error) {
-
-        throw Error(error);
-
+        console.error(" Error in controller:", error);
+        res.status(500).json({ error: error.message });
     }
 };
+
 
 const getProductController = async (req, res) => {
 
@@ -145,59 +134,59 @@ const fatchAllProductController = async (req, res) => {
 
 
 const createWishlistController = async (req, res) => {
-  
+
     try {
-  
+
         const wishlist = await createWishlist({ buyer_id: req.user.id, ...req.body });
-  
+
         return res.status(200).json({
             error: false,
             message: "Wishlist create successfully!",
             data: wishlist
         });
-  
+
     } catch (error) {
-  
+
         throw Error(error);
-  
+
     }
 };
 
 const getWishlistController = async (req, res) => {
-  
+
     try {
-  
+
         const wishlistItem = await getWishlist(req.user.id);
-  
+
         return res.status(200).json({
             error: false,
             message: "Wishlist retrived successfully!",
             data: wishlistItem
         });
-  
+
     } catch (error) {
-  
+
         throw Error(error);
-  
+
     }
 };
 
 const deleteWishlistController = async (req, res) => {
-  
+
     try {
-  
+
         const isDeleted = await deleteWishlist(req.params.productId);
-  
+
         return res.status(200).json({
             error: false,
             message: "Wishlist deleted successfully!",
             data: isDeleted
         });
-  
+
     } catch (error) {
-  
+
         throw Error(error);
-  
+
     }
 };
 
