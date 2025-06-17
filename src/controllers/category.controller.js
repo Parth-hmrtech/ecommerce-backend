@@ -8,7 +8,8 @@ import {
     getSubCategory,
     updateSubCategory,
     deleteSubCategory,
-    fatchAllSubCategory
+    fatchAllSubCategory,
+    getSubCategoryByCategoryId
 } from '../services/category.service.js';
 
 const createCategoryController = async (req, res) => {
@@ -143,6 +144,27 @@ const getSubCategoryController = async (req, res) => {
     }
 };
 
+const getSubCategoryByCategoryIdController = async (req, res) => {
+  try {
+
+
+const subCategories = await getSubCategoryByCategoryId({ category_id: req.params.categoryId });
+
+    return res.status(200).json({
+      error: false,
+      message: 'Subcategories retrieved successfully',
+      data: subCategories,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: 'Failed to fetch subcategories',
+      details: error.message,
+    });
+  }
+};
+
+
 const updateSubCategoryController = async (req, res) => {
 
     try {
@@ -210,5 +232,6 @@ export {
     getSubCategoryController,
     updateSubCategoryController,
     deleteSubCategoryController,
-    fatchAllSubCategoryController
+    fatchAllSubCategoryController,
+    getSubCategoryByCategoryIdController
 };

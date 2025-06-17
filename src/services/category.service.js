@@ -97,6 +97,17 @@ const fatchAllSubCategory = async () => {
     return fatchAllCategories;
 };
 
+const getSubCategoryByCategoryId = async ({ category_id }) => {
+  const subCategory = await subCategories.findAll({
+    where: {
+      category_id,
+    },
+  });
+
+  return subCategory;
+};
+
+
 export {
     createCategory,
     getCategory,
@@ -107,6 +118,7 @@ export {
     getSubCategory,
     updateSubCategory,
     deleteSubCategory,
-    fatchAllSubCategory
+    fatchAllSubCategory,
+    getSubCategoryByCategoryId
 }
 

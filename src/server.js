@@ -10,8 +10,8 @@ dotenv.config({ path: '../.env' });
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5174',
-  credentials: true // if you're using cookies or sessions
+  origin: 'http://localhost:5173',
+  credentials: true 
 }));
 
 app.use(express.json());

@@ -10,7 +10,8 @@ import {
     getSubCategoryController,
     updateSubCategoryController,
     deleteSubCategoryController,
-    fatchAllSubCategoryController
+    fatchAllSubCategoryController,
+    getSubCategoryByCategoryIdController
 } from '../controllers/category.controller.js';
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.delete('/seller/categories/:id', userAuthMiddleware, deleteCategoryContro
 router.get('/buyer/categories', userAuthMiddleware, fatchAllCategoryController);
 
 router.get('/seller/subcategories', userAuthMiddleware, getSubCategoryController);
+router.get('/seller/subcategories/:categoryId', userAuthMiddleware, getSubCategoryByCategoryIdController);
 router.post('/seller/subcategories', userAuthMiddleware, createSubCategoryController);
 router.put('/seller/subcategories/:id', userAuthMiddleware, updateSubCategoryController);
 router.delete('/seller/subcategories/:id', userAuthMiddleware, deleteSubCategoryController);

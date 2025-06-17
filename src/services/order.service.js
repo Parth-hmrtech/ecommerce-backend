@@ -133,28 +133,29 @@ const getSellerOrderById = async ({ orderId }) => {
 
     return orderData;
 };
-
 const updateOrderStatus = async (orderId, status) => {
-
     const orders = await order.findByPk(orderId);
+    if (!orders) throw new Error('Order not found');
 
     orders.status = status;
-
     await orders.save();
+
     return orders;
 };
 
-const acceptOrderAndSendEmail = async (orderId) => {
 
+const sendOrderAcceptedNotification = async (orderId) => {
     const orders = await order.findByPk(orderId);
+    if (!orders) throw new Error('Order not found');
+
     const buyer = await users.findByPk(orders.buyer_id);
+    if (!buyer) throw new Error('Buyer not found');
 
-    orders.status = 'Accepted';
-
-    await orders.save();
     await sendOrderAcceptedEmail(buyer.email, orderId);
-    return orders;
+
+    return { emailSentTo: buyer.email };
 };
+
 
 const calculateOrderDetails = async (products) => {
 
@@ -196,6 +197,6 @@ export {
     cancelBuyerOrder,
     updateBuyerOrderAddress,
     calculateOrderDetails,
-    acceptOrderAndSendEmail,
+    sendOrderAcceptedNotification,
     deleteOrderItem
 } 
