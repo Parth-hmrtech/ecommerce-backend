@@ -28,7 +28,7 @@ const cart = sequelize.define('cart', {
     },
     
 }, {
-    tableName: 'cart_items',
+    tableName: 'cart_item',
     timestamps: true,
     paranoid: true,
     underscored: true,

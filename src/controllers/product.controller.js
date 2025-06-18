@@ -7,7 +7,8 @@ import {
     fatchAllProducts,
     createWishlist,
     deleteWishlist,
-    getWishlist
+    getWishlist,
+    fetchProductById
 } from '../services/products.service.js';
 import fs from 'fs/promises';
 import path from 'path';
@@ -74,6 +75,35 @@ const getProductController = async (req, res) => {
 
     }
 };
+
+const getProductByIdController = async (req, res) => {
+    try {
+        const productId = req.params.productId; // get product ID from the route
+
+        const product = await fetchProductById(productId); // you'll need to define this function
+
+        if (!product) {
+            return res.status(404).json({
+                error: true,
+                message: "Product not found!",
+            });
+        }
+
+        return res.status(200).json({
+            error: false,
+            message: "Product retrieved successfully!",
+            data: product,
+        });
+
+    } catch (error) {
+        console.error("Error fetching product by ID:", error);
+        return res.status(500).json({
+            error: true,
+            message: "Internal Server Error",
+        });
+    }
+};
+
 
 const updateProductController = async (req, res) => {
 
@@ -194,10 +224,11 @@ export {
     createProductController,
     imageProductController,
     getProductController,
+    getProductByIdController,
     updateProductController,
     deleteProductController,
     fatchAllProductController,
     getWishlistController,
     createWishlistController,
-    deleteWishlistController
+    deleteWishlistController,
 }

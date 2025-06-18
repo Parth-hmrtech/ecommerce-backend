@@ -5,6 +5,7 @@ import {
     createProductController,
     imageProductController,
     getProductController,
+    getProductByIdController,
     updateProductController,
     deleteProductController,
     fatchAllProductController,
@@ -22,6 +23,7 @@ router.post('/seller/products/image', userAuthMiddleware, upload.array('image',5
 router.put('/seller/products/:id', userAuthMiddleware, updateProductController);
 router.delete('/seller/products/:id', userAuthMiddleware, deleteProductController);
 router.get('/buyer/products', fatchAllProductController);
+router.get('/buyer/products/:productId', getProductByIdController);
 
 router.post('/buyer/wishlist', userAuthMiddleware, createWishlistController);
 router.get('/buyer/wishlist', userAuthMiddleware, getWishlistController);

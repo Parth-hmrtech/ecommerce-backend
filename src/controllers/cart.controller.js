@@ -8,7 +8,7 @@ import {
 const createCartController = async (req, res) => {
   
     try {
-  
+        
         const cart = await createCart({ buyer_id: req.user.id, ...req.body });
   
         return res.status(200).json({

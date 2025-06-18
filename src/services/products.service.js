@@ -91,6 +91,26 @@ const fatchAllProducts = async () => {
     return products;
 };
 
+const fetchProductById = async (id) => {
+    const productData = await product.findOne({
+        where: { id },
+        include: [
+            {
+                model: categories,
+                as: 'category',
+                attributes: { exclude: ['deleted_at'] },
+            },
+            {
+                model: subCategories,
+                as: 'subCategory',
+                attributes: { exclude: ['deleted_at'] },
+            },
+        ],
+    });
+
+    return productData;
+};
+
 const createWishlist = async ({ buyer_id, ...wishlistBody }) => {
 
     const wishlistItem = await wishlist.create({
@@ -134,5 +154,6 @@ export {
     fatchAllProducts,
     createWishlist,
     deleteWishlist,
-    getWishlist
+    getWishlist,
+    fetchProductById
 }
