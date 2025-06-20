@@ -6,7 +6,8 @@ const uploadFile = async (filePath) => {
         const result = await cloudinary.uploader.upload(filePath);
 
         fs.unlink(filePath, () => {});
-
+        console.log("hello");
+        
         return result.secure_url;
     } catch (error) {
         throw new Error(error.message || 'Cloudinary upload failed');
