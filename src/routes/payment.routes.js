@@ -5,7 +5,7 @@ import {
     getSellerEarningsController,
     checkoutPaymentController,
     verifyPaymentController,
-    getPaymentStatusController
+    getBuyerPaymentsController
 } from '../controllers/payment.controller.js';
 import { userAuthMiddleware } from '../middlewares/auth.middleware.js';
 
@@ -16,6 +16,6 @@ router.get('/seller/payments/:orderId',userAuthMiddleware, getSellerPaymentByOrd
 router.get('/seller/earnings', userAuthMiddleware,getSellerEarningsController);
 router.post('/buyer/payments/checkout', userAuthMiddleware,checkoutPaymentController);
 router.post('/buyer/payments/verify',userAuthMiddleware, verifyPaymentController);
-router.get('/buyer/payments/status/:orderId',userAuthMiddleware, getPaymentStatusController);
+router.get('/buyer/payments/status',userAuthMiddleware, getBuyerPaymentsController);
 
 export default router;

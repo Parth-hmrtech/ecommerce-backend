@@ -101,24 +101,23 @@ const verifyPaymentController = async (req, res) => {
 
     }
 };
+const getBuyerPaymentsController = async (req, res) => {
+  try {
+    const buyerId = req.user.id; // make sure auth middleware sets this
+    const payments = await getPaymentStatus(buyerId);
 
-const getPaymentStatusController = async (req, res) => {
-
-    try {
-
-        const status = await getPaymentStatus(req.user.id, req.params.orderId);
-
-        return res.status(200).json({
-            error: false,
-            message: 'Payment status successfully!',
-            data: status
-        }); 
-
-    } catch (error) {
-
-        throw Error(error);
-
-    }
+    return res.status(200).json({
+      error: false,
+      message: 'Buyer payments fetched successfully!',
+      data: payments,
+    });
+  } catch (err) {
+    console.error('Get Buyer Payments Error:', err.message);
+    return res.status(500).json({
+      error: true,
+      message: err.message || 'Failed to fetch payments',
+    });
+  }
 };
 
 export {
@@ -127,5 +126,5 @@ export {
     getSellerEarningsController,
     checkoutPaymentController,
     verifyPaymentController,
-    getPaymentStatusController
+    getBuyerPaymentsController
 } 

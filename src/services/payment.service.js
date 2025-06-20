@@ -52,16 +52,13 @@ const verifyPayment = async ({ transaction_id, status }) => {
     return updated[0] > 0;
 };
 
-const getPaymentStatus = async (buyerId, orderId) => {
-
-    return await payment.findOne({
-
-        where: {
-            buyer_id: buyerId,
-            order_id: orderId
-        }
-
-    });
+const getPaymentStatus = async (buyerId) => {
+  return await payment.findAll({
+    where: {
+      buyer_id: buyerId,
+    },
+    order: [['createdAt', 'DESC']], // Optional: sorts by latest
+  });
 };
 
 export {
