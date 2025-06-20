@@ -37,12 +37,12 @@ const imageProductController = async (req, res) => {
     try {
         const { product_id } = req.body;
         const image_urls = [];
-
+        
         for (const file of req.files) {
             const result = await uploadFile(file.path); 
             image_urls.push(result);
         }
-
+       
         const updateResult = await uploadProductImage({ product_id, image_urls });
 
         res.status(200).json({
@@ -206,7 +206,7 @@ const deleteWishlistController = async (req, res) => {
     try {
 
         const isDeleted = await deleteWishlist(req.params.productId);
-
+        
         return res.status(200).json({
             error: false,
             message: "Wishlist deleted successfully!",

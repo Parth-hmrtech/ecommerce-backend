@@ -135,13 +135,15 @@ const getWishlist = async (userId) => {
 };
 
 const deleteWishlist = async (productId) => {
-  
+console.log(productId);
+
     const deletedCount = await wishlist.destroy({
         where: {
             product_id: productId,
         },
     });
-  
+    console.log(deletedCount);
+    
     return deletedCount > 0;
 };
 

@@ -11,7 +11,7 @@ const wishlist = sequelize.define('wishlist', {
     type: DataTypes.UUID,
     primaryKey: true,
   },
-   product_id: {
+  product_id: {
     type: DataTypes.UUID,
     primaryKey: true,
   },
@@ -19,10 +19,9 @@ const wishlist = sequelize.define('wishlist', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  }, {
+}, {
   tableName: 'wishlist',
   timestamps: true,
-  paranoid: true,
   underscored: true,
 });
 

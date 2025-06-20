@@ -11,15 +11,16 @@ const createCart = async ({ buyer_id, ...cartItemBody }) => {
 };
 
 const getCart = async ({ id }) => {
-  
-    const cartItems = await cart.findAll({
-        where: {
-            buyer_id: id,
-        },
-    });
-  
-    return cartItems;
+  const cartItems = await cart.findAll({
+    where: {
+      buyer_id: id,
+    },
+    order: [['created_at', 'ASC']], 
+  });
+
+  return cartItems;
 };
+
 
 const updateCart = async ({ cartId, quantity }) => {
   
