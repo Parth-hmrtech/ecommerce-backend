@@ -85,26 +85,32 @@ const logoutUserController = (req, res) => {
 };
 
 const forgotPasswordController = async (req, res) => {
-   
-    try {
-    
-        const newPassword = generateRandomPassword();
-    
-        const user = await forgotUserPassword(req.body.email, newPassword);
-    
-        await sendEmail(newPassword, req.body.email);
-    
-        res.json({
-            status: 'success',
-            message: 'Password sent to your email id',
-            data: user
-        });
+  try {
+    const { email, role } = req.body;
 
-    } catch (error) {
-    
-        throw Error(error);
-    
+    if (!email || !role) {
+      return res.status(400).json({ status: 'error', message: 'Email and role are required' });
     }
+
+    const newPassword = generateRandomPassword();
+
+    const user = await forgotUserPassword(email, newPassword, role);
+
+    if (!user) {
+      return res.status(404).json({ status: 'error', message: 'User not found' });
+    }
+
+    await sendEmail(newPassword, email);
+
+    res.json({
+      status: 'success',
+      message: 'Password sent to your email id',
+      data: { id: user.id, email: user.email, role: user.role },
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
 };
 
 export {

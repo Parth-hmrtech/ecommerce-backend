@@ -78,7 +78,6 @@ const deleteCartController = async (req, res) => {
     }
 };
 
-// 🛒 Controller
 const deleteBuyerCartController = async (req, res) => {
   try {
     
@@ -92,7 +91,7 @@ const deleteBuyerCartController = async (req, res) => {
       error: !result.success,
       message: result.message,
       deletedCount: result.deletedCount,
-    });
+    }); 
   } catch (error) {
     console.error("Error deleting buyer cart:", error);
     return res.status(500).json({

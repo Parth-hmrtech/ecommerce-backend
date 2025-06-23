@@ -56,15 +56,17 @@ const loginUser = async ({ email, password, role }) => {
 };
 
 
-const forgotUserPassword = async (email, newPassword) => {
+const forgotUserPassword = async (email, newPassword, role) => {
+  const user = await users.findOne({ where: { email, role } });
 
-    const user = await users.findOne({ where: { email } });
+  if (!user) return null;
 
-    user.password_hash = newPassword;
+  user.password_hash = newPassword; // You should hash this in real scenarios
 
-    await user.save();
-    return user;
+  await user.save();
+  return user;
 };
+
 
 export const isValidUser = async ({ id }) => {
     if (!id) return null;

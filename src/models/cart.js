@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/dbConnect.js';
+
 const cart = sequelize.define('cart', {
   id: {
     type: DataTypes.UUID,
@@ -23,8 +24,7 @@ const cart = sequelize.define('cart', {
   },
 }, {
   tableName: 'cart_item',
-  timestamps: true,         
-  paranoid: true,
+  timestamps: true,        
   underscored: true,      
 });
 

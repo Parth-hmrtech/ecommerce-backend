@@ -4,6 +4,8 @@ dotenv.config();
 dotenv.config({path: '../.env'});
 
   const sendEmail = async (newPassword, email) => {
+    console.log("hello");
+    
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -20,15 +22,12 @@ dotenv.config({path: '../.env'});
   };
 
   try {
-    
     await transporter.sendMail(mailOptions);
-  
   } catch (error) {
-   
     throw error;
-  
   }
 };
+
 
 export{
   sendEmail
