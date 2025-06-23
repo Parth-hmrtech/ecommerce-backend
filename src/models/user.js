@@ -18,8 +18,7 @@ const users = sequelize.define('User', {
   },
   email: {
     type: DataTypes.STRING(255),
-    unique: true,
-    allowNull: true,
+    allowNull: true, // Keep this true if you want to allow NULLs (or change to false for required)
   },
   password_hash: {
     type: DataTypes.STRING(255),
@@ -53,6 +52,12 @@ const users = sequelize.define('User', {
   timestamps: true,
   paranoid: true,
   underscored: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ['email', 'role'], // ✅ Enforce uniqueness only for (email, role) pair
+    }
+  ],
   hooks: {
     beforeCreate: async (user) => {
       if (user.password_hash) {
@@ -69,10 +74,9 @@ const users = sequelize.define('User', {
   }
 });
 
-function validPassword(password) {
+// Method to validate password
+users.prototype.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password_hash);
-}
-users.prototype.validPassword = validPassword;
-
+};
 
 export default users;

@@ -25,12 +25,21 @@ const orderItems = sequelize.define('order_items', {
         validate: {
             min: 0,
         },
-    },  
+    },
+    seller_id: {
+        type: DataTypes.UUID,
+        allowNull: true, // optional but good
+    },
+    subtotal: {
+        type: DataTypes.DECIMAL,
+        allowNull: true,
+    },
+
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
-   
+
 }, {
     tableName: 'order_items',
     timestamps: true,

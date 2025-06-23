@@ -6,7 +6,9 @@ import orderItems from '../models/orderItem.js';
 import { sendOrderAcceptedEmail } from '../utils/emailOrderService.js';  // adjust relative path if needed
 
 const createOrder = async ({ buyer_id, products, ...orderBody }) => {
-
+   
+    console.log(buyer_id);
+    
     const t = await sequelize.transaction();
 
     try {
@@ -106,7 +108,7 @@ const getSellerOrders = async ({ sellerId }) => {
 
     const ordersWithItems = await order.findAll({
 
-        where: { seller_id: sellerId },
+        // where: { seller_id: sellerId },
 
         include: [
             {
@@ -170,7 +172,9 @@ const calculateOrderDetails = async (products) => {
         total_amount = total_amount + item.quantity * products.price;
 
     }
-
+    console.log(seller_id);
+    console.log(total_amount);
+    
     return { seller_id, total_amount };
 };
 

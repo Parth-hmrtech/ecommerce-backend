@@ -18,7 +18,11 @@ const createBuyerOrderController = async (req, res) => {
     try {
 
         const products = req.body.products;
+        // console.log(products);
+        
         const orderDetails = await calculateOrderDetails(products);
+        console.log(orderDetails);
+        
         const order = await createOrder({ buyer_id: req.user.id, ...orderDetails, ...req.body });
 
         return res.status(200).json({
