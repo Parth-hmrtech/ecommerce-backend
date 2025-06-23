@@ -4,7 +4,8 @@ import {
     createCartController,
     getCartController,
     updateCartController,
-    deleteCartController
+    deleteCartController,
+    deleteBuyerCartController
 } from '../controllers/cart.controller.js';
 
 const router = express.Router();
@@ -13,6 +14,6 @@ router.post('/buyer/cart', userAuthMiddleware, createCartController);
 router.get('/buyer/cart', userAuthMiddleware, getCartController);
 router.put('/buyer/cart/:id', userAuthMiddleware, updateCartController);
 router.delete('/buyer/cart/:id', userAuthMiddleware, deleteCartController);
-router.delete('/buyer/cart/:itemId', userAuthMiddleware,);
+router.delete('/buyer/cart/buyerId/:buyerId', userAuthMiddleware,deleteBuyerCartController);
 
 export default router;
