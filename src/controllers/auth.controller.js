@@ -14,8 +14,6 @@ import { uploadFile } from '../utils/uploadImage.js';
 const createUserController = async (req, res) => {
   try {
     const userData = { ...req.body };
-
-    // Handle image upload
     if (req.file) {
       const filePath = req.file.path;
       const imageUrl = await uploadFile(filePath);
