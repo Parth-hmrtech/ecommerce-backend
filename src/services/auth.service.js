@@ -15,23 +15,20 @@ const createUser = async (userBody) => {
     throw new Error('Email and role are required.');
   }
 
-  // Allow same email for one buyer and one seller, but not same role twice
   const existingUser = await users.findOne({
-    where: { email, role }, // checks uniqueness per (email + role)
+    where: { email, role }, 
   });
 
   if (existingUser) {
     throw new Error(`Email is already registered as a ${role}.`);
   }
 
-  // All good — create new user
   return await users.create(userBody);
 };
 
 
 
 const loginUser = async ({ email, password, role }) => {
-  // Find user by email, role, and active status
   const user = await users.findOne({
     where: {
       email,
@@ -39,13 +36,9 @@ const loginUser = async ({ email, password, role }) => {
       is_active: true,
     },
   });
-
-  // If user not found or password mismatch
   if (!user || !(await user.validPassword(password))) {
     throw new Error('Invalid email, password, or role');
   }
-
-  // Generate JWT token
   const token = jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     JWT_SECRET,
@@ -61,7 +54,7 @@ const forgotUserPassword = async (email, newPassword, role) => {
 
   if (!user) return null;
 
-  user.password_hash = newPassword; // You should hash this in real scenarios
+  user.password_hash = newPassword;
 
   await user.save();
   return user;
@@ -73,7 +66,7 @@ export const isValidUser = async ({ id }) => {
 
     const user = await users.findOne({
         where: { id },
-        attributes: { exclude: ['password'] }, // optional: don’t return password
+        attributes: { exclude: ['password'] }, 
     });
 
     return user;

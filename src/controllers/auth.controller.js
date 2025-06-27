@@ -1,17 +1,32 @@
 import {
-    createUser,
-    loginUser,
-    forgotUserPassword
+  createUser,
+  loginUser,
+  forgotUserPassword
 } from '../services/auth.service.js';
 import { sendEmail } from '../utils/emailService.js';
 import { generateRandomPassword } from '../utils/password.js';
 import { Sequelize } from 'sequelize'; // Make sure this is imported if not already
+import { uploadFile } from '../utils/uploadImage.js';
+
+
+
 
 const createUserController = async (req, res) => {
-
   try {
-    const user = await createUser(req.body);
-  console.log("Received create user request:", req.body);
+    const userData = { ...req.body };
+
+    // Handle image upload
+    if (req.file) {
+      const filePath = req.file.path;
+      const imageUrl = await uploadFile(filePath);
+      userData.image_url = imageUrl;
+    } else {
+      console.log('No file uploaded');
+    }
+
+    console.log("Final user data to save:", userData);
+
+    const user = await createUser(userData);
 
     return res.status(200).json({
       error: false,
@@ -22,7 +37,6 @@ const createUserController = async (req, res) => {
   } catch (error) {
     console.error("User creation error:", error);
 
-    // Sequelize unique constraint error (e.g. duplicate email+role)
     if (error instanceof Sequelize.UniqueConstraintError) {
       return res.status(400).json({
         error: true,
@@ -30,7 +44,6 @@ const createUserController = async (req, res) => {
       });
     }
 
-    // Application-level error from our own logic
     if (error.message && error.message.startsWith('Email is already registered as')) {
       return res.status(400).json({
         error: true,
@@ -38,13 +51,14 @@ const createUserController = async (req, res) => {
       });
     }
 
-    // Fallback: unexpected error
     return res.status(500).json({
       error: true,
-      message: 'Something went wrong.',
+      message: error.message || 'Something went wrong.',
     });
   }
 };
+
+
 
 
 const loginUserController = async (req, res) => {
@@ -70,18 +84,18 @@ const loginUserController = async (req, res) => {
 };
 
 const logoutUserController = (req, res) => {
-        
-    req.session.destroy(() => {
-    
-        res.clearCookie('connect.sid');
-    
-        return res.status(200).json({
-            error: false,
-            message: "Logged out successfully",
-            data: null,
-        });
-    
+
+  req.session.destroy(() => {
+
+    res.clearCookie('connect.sid');
+
+    return res.status(200).json({
+      error: false,
+      message: "Logged out successfully",
+      data: null,
     });
+
+  });
 };
 
 const forgotPasswordController = async (req, res) => {
@@ -114,10 +128,10 @@ const forgotPasswordController = async (req, res) => {
 };
 
 export {
-    createUserController,
-    loginUserController,
-    logoutUserController,
-    forgotPasswordController,
+  createUserController,
+  loginUserController,
+  logoutUserController,
+  forgotPasswordController,
 };
 
 

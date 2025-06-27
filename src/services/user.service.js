@@ -3,28 +3,26 @@ import users from '../models/user.js';
 const findUser = async (userId) => {
     return await users.findByPk(userId);
 };
+const updateUser = async ({ id, data }) => {
+    const result = await users.update(data, {
+        where: { id },
+    });
 
-const updateUser = async ({ id, ...userBody }) => {
-   
-    const result = await users.update(
-        { ...userBody },
-        { where: { id } }
-    );
-   
-    return result[0] > 0 ? true : false;
+    return result[0] > 0; // returns true if update affected rows
 };
 
+
 const resetUserPassword = async ({ userId, oldPassword, newPassword }) => {
-   
+
     const user = await users.findByPk(userId);
     const isValid = await user.validPassword(oldPassword);
-   
+
     if (!isValid) {
         return { message: 'Old password is incorrect' };
     }
-   
+
     user.password_hash = newPassword;
-   
+
     await user.save();
     return user;
 };

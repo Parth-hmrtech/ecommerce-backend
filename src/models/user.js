@@ -32,6 +32,10 @@ const users = sequelize.define('User', {
   phone_number: {
     type: DataTypes.STRING(20),
   },
+  image_url: {
+    type: DataTypes.STRING(500), 
+    allowNull: true,
+  },
   is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
@@ -74,7 +78,6 @@ const users = sequelize.define('User', {
   }
 });
 
-// Method to validate password
 users.prototype.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password_hash);
 };
