@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/dbConnect.js';
 import bcrypt from 'bcrypt';
 
-const users = sequelize.define('User', {
+const User = sequelize.define('user', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -18,38 +18,27 @@ const users = sequelize.define('User', {
   },
   email: {
     type: DataTypes.STRING(255),
-    allowNull: true, // Keep this true if you want to allow NULLs (or change to false for required)
+    allowNull: false, // Recommend making it required
   },
   password_hash: {
     type: DataTypes.STRING(255),
-    allowNull: true,
+    allowNull: false, // Recommend making it required
   },
   role: {
     type: DataTypes.ENUM('seller', 'buyer'),
-    allowNull: true,
     defaultValue: 'buyer',
   },
   phone_number: {
     type: DataTypes.STRING(20),
+    allowNull: true,
   },
   image_url: {
-    type: DataTypes.STRING(500), 
+    type: DataTypes.STRING(500),
     allowNull: true,
   },
   is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-  deleted_at: {
-    type: DataTypes.DATE,
   },
 }, {
   tableName: 'users',
@@ -59,7 +48,7 @@ const users = sequelize.define('User', {
   indexes: [
     {
       unique: true,
-      fields: ['email', 'role'], // ✅ Enforce uniqueness only for (email, role) pair
+      fields: ['email', 'role'],
     }
   ],
   hooks: {
@@ -78,8 +67,9 @@ const users = sequelize.define('User', {
   }
 });
 
-users.prototype.validPassword = function(password) {
+// Instance method
+User.prototype.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password_hash);
 };
 
-export default users;
+export default User;

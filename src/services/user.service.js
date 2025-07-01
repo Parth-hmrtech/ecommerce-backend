@@ -13,7 +13,9 @@ const updateUser = async ({ id, data }) => {
 
 
 const resetUserPassword = async ({ userId, oldPassword, newPassword }) => {
-
+    console.log(oldPassword);
+    console.log(newPassword);
+    
     const user = await users.findByPk(userId);
     const isValid = await user.validPassword(oldPassword);
 

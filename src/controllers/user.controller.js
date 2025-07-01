@@ -77,7 +77,8 @@ const resetPasswordController = async (req, res) => {
         }
 
         const resetPassword = await resetUserPassword({ userId: req.user.id, ...req.body });
-
+        console.log(resetPassword);
+        
         res.status(200).json({
             error: false,
             message: "Reset password successful",
