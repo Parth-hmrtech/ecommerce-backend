@@ -32,21 +32,37 @@ const deleteCart = async (cartId) => {
   return deletedCart;
 };
 
+
 const deleteBuyerCart = async (buyerId) => {
-  console.log("deleteBuyerCart service called with buyerId:", buyerId);
-
-  const deleted = await cart.destroy({
-    where: {
-      buyer_id: buyerId,
-    },
-  });
-
-  if (deleted > 0) {
-    return { success: true, message, deletedCount: deleted };
-  } else {
-    return { success: false, message, deletedCount: 0 };
+  try {
+    const deletedCount = await cart.destroy({
+      where: { buyer_id: buyerId },
+    });
+    console.log(deletedCount);
+    
+    if (deletedCount > 0) {
+      return {
+        success: true,
+        message: 'Buyer cart deleted successfully.',
+        deletedCount,
+      };
+    } else {
+      return {
+        success: false,
+        message: 'No cart items found for this buyer.',
+        deletedCount: 0,
+      };
+    }
+  } catch (error) {
+    console.error('Service Error in deleteBuyerCart:', error);
+    return {
+      success: false,
+      message: 'Error deleting buyer cart.',
+      deletedCount: 0,
+    };
   }
 };
+
 
 
 export {

@@ -78,14 +78,11 @@ const deleteCartController = async (req, res) => {
     }
 };
 
-const deleteBuyerCartController = async (req, res) => {
+ const deleteBuyerCartController = async (req, res) => {
   try {
-    
     const { buyerId } = req.params;
 
-
     const result = await deleteBuyerCart(buyerId);
-
 
     return res.status(200).json({
       error: !result.success,
@@ -100,6 +97,7 @@ const deleteBuyerCartController = async (req, res) => {
     });
   }
 };
+
 
 export {
     createCartController,

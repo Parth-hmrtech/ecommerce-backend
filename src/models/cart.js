@@ -9,11 +9,11 @@ const cart = sequelize.define('cart', {
   },
   buyer_id: {
     type: DataTypes.UUID,
-    primaryKey: true,
+    allowNull: false,
   },
   product_id: {
     type: DataTypes.UUID,
-    primaryKey: true,
+    allowNull: false,
   },
   quantity: {
     type: DataTypes.INTEGER,
@@ -24,8 +24,8 @@ const cart = sequelize.define('cart', {
   },
 }, {
   tableName: 'cart_item',
-  timestamps: true,        
-  underscored: true,      
+  timestamps: true,
+  underscored: true,
 });
 
 export default cart;
