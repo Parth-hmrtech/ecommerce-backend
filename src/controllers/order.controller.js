@@ -18,7 +18,6 @@ const createBuyerOrderController = async (req, res) => {
     try {
 
         const products = req.body.products;
-        // console.log(products);
         
         const orderDetails = await calculateOrderDetails(products);
         console.log(orderDetails);

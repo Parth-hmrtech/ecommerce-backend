@@ -15,7 +15,7 @@ import {
 } from '../controllers/product.controller.js';
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: ' fs.mkdirSync/' });
 
 router.get('/seller/products', userAuthMiddleware, getProductController);
 router.post('/seller/products', userAuthMiddleware, createProductController);
