@@ -60,7 +60,7 @@ const createOrder = async ({ buyer_id, products, ...orderBody }) => {
 };
 
 const getBuyerOrders = async ({ buyerId }) => {
-
+    
     const ordersWithItems = await order.findAll({
 
         where: { buyer_id: buyerId },
@@ -71,7 +71,7 @@ const getBuyerOrders = async ({ buyerId }) => {
             }
         ]
     });
-
+    
     return ordersWithItems;
 
 };

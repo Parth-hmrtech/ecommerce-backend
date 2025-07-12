@@ -42,7 +42,7 @@ const getBuyerOrdersController = async (req, res) => {
     try {
 
         const orders = await getBuyerOrders({ buyerId: req.user.id });
-
+        
         return res.status(200).json({
             error: false,
             message: 'Order retrived successfully!',
