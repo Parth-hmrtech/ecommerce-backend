@@ -18,7 +18,7 @@ const getSellerPaymentsController = async (req, res) => {
             message: 'payment retrived successfully!',
             data: payments
         }); 
-
+        
     } catch (error) {
 
         throw Error(error);
@@ -103,7 +103,7 @@ const verifyPaymentController = async (req, res) => {
 };
 const getBuyerPaymentsController = async (req, res) => {
   try {
-    const buyerId = req.user.id; // make sure auth middleware sets this
+    const buyerId = req.user.id; 
     const payments = await getPaymentStatus(buyerId);
 
     return res.status(200).json({
