@@ -46,7 +46,6 @@ const review = sequelize.define('review', {
 }, {
     tableName: 'reviews',
     timestamps: false,
-    underscored: true,
 });
 
 export default review;
